@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { JoiValidationPipe } from '../../pipes/joi.pipe';
 import { ConfigService } from '../../config/config.service';
 import { MailerService } from '../mailer/mailer.service';
 import { TopicService } from './topic.service';
+import { message, subscriberEmail, topicName } from './topic.validation';
 
 @Controller('topics')
 export class TopicController {
@@ -12,7 +14,7 @@ export class TopicController {
     ) {}
 
   @Post(':name/subscribe')
-  async subscribe(@Param('name') name: string, @Body('email') email: string) {
+  async subscribe(@Param('name', new JoiValidationPipe(topicName)) name: string, @Body('email',  new JoiValidationPipe(subscriberEmail)) email: string) {
     try {
       return await this.topicService.subscribe(name, email);
     } catch (err) {
@@ -22,10 +24,10 @@ export class TopicController {
   }
 
   @Post(':name/publish')
-  async publish(@Param('name') name: string, @Body('message') message: string, @Body('htmlMessage') htmlMessage: string) {
+  async publish(@Param('name', new JoiValidationPipe(topicName)) name: string, @Body('message',  new JoiValidationPipe(message)) message: string) {
     try {
       const { topic, latestMessage } = await this.topicService.publish(name, message);
-      await this.mailer.broadcast(topic.subscribers, htmlMessage, latestMessage, this.configService.get('orgEmail'), topic.name);
+      await this.mailer.broadcast(topic.subscribers, latestMessage, this.configService.get('orgEmail'), topic.name);
       return { message: latestMessage, recipients: topic.subscribers}
     } catch (err) {
       console.log(err);
