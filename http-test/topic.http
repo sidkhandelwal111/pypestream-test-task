@@ -1,0 +1,5 @@
+### subscribe
+POST http://localhost:8000/topic/cricket/subscribe
+content-type: application/json
+
+{ "email": "temp.mail5@mail.com" }
