@@ -7,17 +7,28 @@ please give feedback ​on how you felt about the project, requirements, specifi
 etc.
 
 ## Installation
+Create a .env file inside server folder and paste following content
+```
+PORT=8000
+NODE_ENV=local
+MONGO_URI=mongodb+srv://pypestreamuser:pypestream@atlas@cluster0.gercq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+```
 
 ```bash
+$ cd server
+$ npm install
+$ cd client
 $ npm install
 ```
 
 ## Running the app
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
+# start the server first
+$ cd server
 $ npm run start:dev
+
+# start front end
+$ cd client
+$ npm start
 ```
