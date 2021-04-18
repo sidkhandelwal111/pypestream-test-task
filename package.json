@@ -27,6 +27,7 @@
     "@nestjs/platform-express": "^7.0.0",
     "convict": "^6.0.1",
     "dotenv": "^8.2.0",
+    "fuzzy-search": "^3.2.1",
     "mongoose": "^5.12.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

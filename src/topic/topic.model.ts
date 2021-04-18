@@ -10,6 +10,9 @@ export class Topic {
 
   @Prop([String])
   subscribers: [string];
+
+  @Prop([String])
+  messages: [string];
 }
 
 export const TopicSchema = SchemaFactory.createForClass(Topic);
