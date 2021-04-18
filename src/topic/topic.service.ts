@@ -1,8 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as FuzzySearch from 'fuzzy-search';
@@ -36,8 +32,8 @@ export class TopicService {
             },
           },
           {
-            new: true
-          }
+            new: true,
+          },
         );
       }
     } else {
@@ -62,37 +58,39 @@ export class TopicService {
           },
         },
         {
-          new: true
-        }
+          new: true,
+        },
       );
 
-      return {topic: updatedTopic, latestMessage: message};
+      return { topic: updatedTopic, latestMessage: message };
     } else {
       throw new HttpException('Topic does not exist', HttpStatus.BAD_REQUEST);
     }
   }
 
-  async listAll(filters: { topics: [string], subscribers: [string]}, message: string) {
+  async listAll(
+    filters: { topics: [string]; subscribers: [string] },
+    message: string,
+  ) {
     const orQuery = [];
 
     if (filters.topics) {
       orQuery.push({
         name: {
-          $in: [...filters.topics]
-        }
-      })
+          $in: [...filters.topics],
+        },
+      });
     }
-    
+
     if (filters.subscribers) {
       orQuery.push({
         subscribers: {
-          $in: [...filters.subscribers]
-        }
-      })
+          $in: [...filters.subscribers],
+        },
+      });
     }
 
     const query = orQuery.length ? { $or: orQuery } : undefined;
-
 
     const topics = await this.topicModel.find(query);
     if (message) {
@@ -102,7 +100,7 @@ export class TopicService {
       const searchedTopics = searcher.search(message);
       return searchedTopics;
     }
-    
+
     return topics;
   }
 }

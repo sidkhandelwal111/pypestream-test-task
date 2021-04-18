@@ -15,7 +15,7 @@ import { MailerModule } from './mailer/mailer.module';
     }),
     MailerModule,
     TopicModule,
-    MailerModule
+    MailerModule,
   ],
 })
 export class AppModule {}
