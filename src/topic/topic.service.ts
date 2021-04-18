@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as FuzzySearch from 'fuzzy-search';
 import { Topic, TopicDocument } from './topic.model';
 
 @Injectable()
@@ -47,5 +48,40 @@ export class TopicService {
 
       return newTopic;
     }
+  }
+
+  async publish(name: string, message: string) {
+    const existingTopic = await this.topicModel.findOne({ name: name });
+
+    if (existingTopic) {
+      const updatedTopic = await this.topicModel.findOneAndUpdate(
+        { name: name },
+        {
+          $push: {
+            messages: message,
+          },
+        },
+        {
+          new: true
+        }
+      );
+
+      return {topic: updatedTopic, latestMessage: message};
+    } else {
+      throw new HttpException('Topic does not exist', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async listAll(search: string) {
+    const topics = await this.topicModel.find();
+    if (search) {
+      const searcher = new FuzzySearch(topics, ['name', 'messages', 'subscribers'], {
+        caseSensitive: true,
+      });
+      const searchedTopics = searcher.search(search);
+      return searchedTopics;
+    }
+    
+    return topics;
   }
 }

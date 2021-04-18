@@ -1,5 +1,17 @@
 ### subscribe
-POST http://localhost:8000/topic/cricket/subscribe
+POST http://localhost:8000/topics/cricket/subscribe
 content-type: application/json
 
 { "email": "temp.mail5@mail.com" }
+
+### publish
+POST http://localhost:8000/topics/cricket/publish
+content-type: application/json
+
+{ "message": "India won" }
+
+### list all topics
+GET http://localhost:8000/topics
+
+### list all topics with search query
+GET http://localhost:8000/topics?search=cricket
