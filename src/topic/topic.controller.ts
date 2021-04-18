@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { ConfigService } from '../../config/config.service';
 import { MailerService } from '../mailer/mailer.service';
 import { TopicService } from './topic.service';
 
@@ -6,7 +7,8 @@ import { TopicService } from './topic.service';
 export class TopicController {
   constructor(
     private readonly topicService: TopicService,
-    private readonly mailer: MailerService
+    private readonly mailer: MailerService,
+    private readonly configService: ConfigService
     ) {}
 
   @Post(':name/subscribe')
@@ -23,7 +25,7 @@ export class TopicController {
   async publish(@Param('name') name: string, @Body('message') message: string, @Body('htmlMessage') htmlMessage: string) {
     try {
       const { topic, latestMessage } = await this.topicService.publish(name, message);
-      await this.mailer.broadcast(topic.subscribers, htmlMessage, latestMessage, 'testing@broadcaster.com', topic.name);
+      await this.mailer.broadcast(topic.subscribers, htmlMessage, latestMessage, this.configService.get('orgEmail'), topic.name);
       return { message: latestMessage, recipients: topic.subscribers}
     } catch (err) {
       console.log(err);
