@@ -14,6 +14,8 @@ NODE_ENV=local
 MONGO_URI=mongodb+srv://pypestreamuser:pypestream@atlas@cluster0.gercq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 ```
 
+Install node modules
+
 ```bash
 $ cd server
 $ npm install
