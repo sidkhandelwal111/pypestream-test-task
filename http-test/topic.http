@@ -1,11 +1,11 @@
 ### subscribe
-POST http://localhost:8000/topics/cricket/subscribe
+POST http://localhost:8000/topics/testcricket1/subscribe
 content-type: application/json
 
-{ "email": "temp.mail5@mail.com" }
+{ "email": "golos60279@art2427.com" }
 
 ### publish
-POST http://localhost:8000/topics/cricket/publish
+POST http://localhost:8000/topics/testcricket1/publish
 content-type: application/json
 
 { "message": "India won" }
