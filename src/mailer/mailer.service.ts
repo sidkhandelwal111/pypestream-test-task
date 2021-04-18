@@ -21,15 +21,15 @@ export class MailerService {
     });
   }
 
-  async broadcast(recipients, html, text, from, subject) {
+  async broadcast(recipients, message, from, subject) {
     recipients.forEach(async (to) => {
       try {
         await this.transporter.sendMail({
           from: from,
           to: to,
           subject: subject,
-          text: text,
-          html: html,
+          text: message,
+          html: message,
           headers: { 'x-cloudmta-class': 'standard' }
         })
       }
