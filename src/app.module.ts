@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '../../config/config.module';
+import { ConfigModule } from '../config/config.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TopicModule } from './topic/topic.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       useFindAndModify: false,
       useUnifiedTopology: true,
     }),
+    TopicModule
   ],
 })
 export class AppModule {}
