@@ -5,6 +5,11 @@ export const getMessages = async () => {
   return response.json();
 }
 
+export const getFilteredMessages = async (query: string) => {
+  const response = await fetch(API_URL + 'topics?' + 'search=' + query);
+  return response.json();
+}
+
 export const subscribe = async (email: string, topic: string) => {
   const response = await fetch(API_URL + 'topics/' + topic + '/subscribe', {
     method: 'POST',

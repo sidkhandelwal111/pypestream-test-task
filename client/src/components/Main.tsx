@@ -9,7 +9,7 @@ function Main() {
       flexDirection: 'column',
       height: '100vh'
     }}>
-      <Link to="/subscribe">Subscribe to a topic</Link>
+      <Link to="/subscribe">Subscribe To A Topic</Link>
       <Link to="/publish">Publish Message</Link>
     </div>
   )

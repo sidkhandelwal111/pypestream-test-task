@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { TextField, Button, FormLabel, List, ListItem, ListItemText, Snackbar, IconButton, CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { getMessages, publishMessage } from '../utils/apiUtils';
+import _ from 'lodash';
+import { getFilteredMessages, publishMessage } from '../utils/apiUtils';
 import './publish.css';
 
 interface BroadcastMessage {
@@ -14,6 +15,7 @@ function Publish() {
   const [message, setMessage] = useState('');
   const [snackbar, setSnackbar] = useState({ open: false, message: '' });
   const [messages, setMessages] = useState<BroadcastMessage[]>([]);
+  const delayedFunction = useCallback(_.debounce((query: string) => getMessages(query), 500), []);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -42,7 +44,11 @@ function Publish() {
   }
 
   useEffect(() => {
-    getMessages().then(topics => {
+    getMessages("");
+  }, []);
+
+  const getMessages = (query: string) => {
+    getFilteredMessages(query).then((topics: any[]) => {
       let messagesArray: BroadcastMessage[] = [];
       topics.forEach((topicItem: any) => {
         topicItem.messages.forEach((messageItem: string) => {
@@ -54,7 +60,12 @@ function Publish() {
       });
       setMessages(messagesArray);
     });
-  }, [])
+  }
+
+  const handleQueryChange = (event: any) => {
+    setMessages([]);
+    delayedFunction(event.target.value);
+  }
 
   return (
     <div className="wrapper">
@@ -69,7 +80,8 @@ function Publish() {
         </FormLabel>
         <Button type="submit" variant="outlined" color="primary" className="submitButton">Broadcast</Button>
       </form>
-      <div className="messageListWrapper">
+      <div className="messageListWrapper" data-testid="broadcastList">
+        <div className="searchBar"><TextField label="Search Messages" variant="outlined" onChange={handleQueryChange} /></div>
         {messages.length > 0 ?
           <List className="messageList">
             {messages.map(messageItem =>
