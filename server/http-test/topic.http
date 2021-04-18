@@ -19,32 +19,5 @@ content-type: application/json
 ### list all topics
 GET http://localhost:8000/topics
 
-### list all topics with topics filter
-GET http://localhost:8000/topics
-Content-Type: application/json
-
-{
-  "filters": {
-    "topics": ["cricket", "dance"]
-  }
-}
-
-### list all topics with subscribers filter
-GET http://localhost:8000/topics
-Content-Type: application/json
-
-{
-  "filters": {
-    "subscribers": ["tempmail1@mail.com"]
-  }
-}
-
-### list all topics with subscribers filter and search filter
-GET http://localhost:8000/topics?search=contemporary
-Content-Type: application/json
-
-{
-  "filters": {
-    "subscribers": ["tempmail1@mail.com"]
-  }
-}
+### list all topics with search filter
+GET http://localhost:8000/topics?search=shubham.b.sharma@gmail.com

@@ -51,11 +51,10 @@ export class TopicController {
 
   @Get()
   async listAll(
-    @Query('search') message: string,
-    @Body('filters') filters: { topics: [string]; subscribers: [string] } = { topics: null, subscribers: null},
+    @Query('search') searchString: string,
   ) {
     try {
-      return await this.topicService.listAll(filters, message);
+      return await this.topicService.listAll(searchString);
     } catch (err) {
       console.log(err);
       throw err;

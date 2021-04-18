@@ -69,35 +69,14 @@ export class TopicService {
   }
 
   async listAll(
-    filters: { topics: [string]; subscribers: [string] },
-    message: string,
+    searchString: string,
   ) {
-    const orQuery = [];
-
-    if (filters.topics) {
-      orQuery.push({
-        name: {
-          $in: [...filters.topics],
-        },
-      });
-    }
-
-    if (filters.subscribers) {
-      orQuery.push({
-        subscribers: {
-          $in: [...filters.subscribers],
-        },
-      });
-    }
-
-    const query = orQuery.length ? { $or: orQuery } : undefined;
-
-    const topics = await this.topicModel.find(query);
-    if (message) {
-      const searcher = new FuzzySearch(topics, ['messages'], {
+    const topics = await this.topicModel.find();
+    if (searchString) {
+      const searcher = new FuzzySearch(topics, ['name', 'subscribers', 'messages'], {
         caseSensitive: false,
       });
-      const searchedTopics = searcher.search(message);
+      const searchedTopics = searcher.search(searchString);
       return searchedTopics;
     }
 
