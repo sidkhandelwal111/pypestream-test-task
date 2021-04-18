@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '../../config/config.service';
 import { createTransport } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 
 @Injectable()
 export class MailerService {
   private transporter: Mail;
-  constructor() {
+  constructor(
+    private readonly config: ConfigService
+  ) {
     this.transporter = createTransport({
-      host: 'smtp.mailtrap.io',
+      host: config.get('smtpHost'),
       port: 2525,
       secure: false,
       auth: {
-        user: '6f94764bd27ee7',
-        pass: '81a8b7d428eb8d',
+        user: config.get('smtpUsername'),
+        pass: config.get('smtpPassword'),
       },
       logger: true
     });
