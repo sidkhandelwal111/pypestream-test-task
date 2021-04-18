@@ -11,7 +11,7 @@ Create a .env file inside server folder and paste following content
 ```
 PORT=8000
 NODE_ENV=local
-MONGO_URI=mongodb+srv://pypestreamuser:pypestream@atlas@cluster0.gercq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+MONGO_URI=mongodb://localhost/test
 ```
 
 Install node modules
