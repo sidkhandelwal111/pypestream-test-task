@@ -52,7 +52,7 @@ export class TopicController {
   @Get()
   async listAll(
     @Query('search') message: string,
-    @Body('filters') filters: { topics: [string]; subscribers: [string] },
+    @Body('filters') filters: { topics: [string]; subscribers: [string] } = { topics: null, subscribers: null},
   ) {
     try {
       return await this.topicService.listAll(filters, message);
