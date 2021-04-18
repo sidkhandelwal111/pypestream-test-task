@@ -9,8 +9,18 @@
 }
 
 .messageList {
-  width: 30vw;
   border-left: 1px solid grey;
+}
+
+.messageListWrapper {
+  width: 30vw;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .submitButton {

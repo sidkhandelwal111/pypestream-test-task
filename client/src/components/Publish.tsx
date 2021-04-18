@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, FormLabel, List, ListItem, ListItemText, Snackbar, IconButton } from '@material-ui/core';
+import { TextField, Button, FormLabel, List, ListItem, ListItemText, Snackbar, IconButton, CircularProgress } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { getMessages, publishMessage } from '../utils/apiUtils';
 import './publish.css';
@@ -61,15 +61,15 @@ function Publish() {
       <form onSubmit={handleSubmit} className="formWrapper">
         <FormLabel>
           <p>Topic: </p>
-          <TextField style={{ width: '400px' }} variant="outlined" placeholder="Enter Topic..." value={topic} onChange={(e) => setTopic(e.target.value)} />
+          <TextField required style={{ width: '400px' }} variant="outlined" placeholder="Enter Topic..." value={topic} onChange={(e) => setTopic(e.target.value)} />
         </FormLabel>
         <FormLabel>
           <p>Message: </p>
-          <TextField style={{ width: '400px' }} multiline rows={4} variant="outlined" placeholder="Enter Message..." value={message} onChange={(e) => setMessage(e.target.value)} />
+          <TextField required style={{ width: '400px' }} multiline rows={4} variant="outlined" placeholder="Enter Text/HTML Message..." value={message} onChange={(e) => setMessage(e.target.value)} />
         </FormLabel>
         <Button type="submit" variant="outlined" color="primary" className="submitButton">Broadcast</Button>
       </form>
-      <div>
+      <div className="messageListWrapper">
         {messages.length > 0 ?
           <List className="messageList">
             {messages.map(messageItem =>
@@ -77,7 +77,9 @@ function Publish() {
                 <ListItemText primary={messageItem.topic} secondary={messageItem.message} />
               </ListItem>
             )}
-          </List> : "NO DATA"
+          </List> : <div className="loader">
+            <CircularProgress />
+          </div>
         }
       </div>
       <Snackbar

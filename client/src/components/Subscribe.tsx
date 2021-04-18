@@ -40,11 +40,11 @@ function Subscribe() {
       <form onSubmit={handleSubmit} className="formWrapper">
         <FormLabel>
           <p>Email: </p>
-          <TextField type="email" style={{ width: '500px' }} variant="outlined" placeholder="Enter Email..." value={email} onChange={(e) => setEmail(e.target.value)} />
+          <TextField required type="email" style={{ width: '500px' }} variant="outlined" placeholder="Enter Email..." value={email} onChange={(e) => setEmail(e.target.value)} />
         </FormLabel>
         <FormLabel>
           <p>Topic: </p>
-          <TextField style={{ width: '500px' }} variant="outlined" placeholder="Enter Topic..." value={topic} onChange={(e) => setTopic(e.target.value)} />
+          <TextField required style={{ width: '500px' }} variant="outlined" placeholder="Enter Topic..." value={topic} onChange={(e) => setTopic(e.target.value)} />
         </FormLabel>
         <Button type="submit" variant="outlined" color="primary" className="submitButton">Subscribe</Button>
       </form>
