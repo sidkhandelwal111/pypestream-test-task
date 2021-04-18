@@ -10,11 +10,14 @@ export class TopicController {
   constructor(
     private readonly topicService: TopicService,
     private readonly mailer: MailerService,
-    private readonly configService: ConfigService
-    ) {}
+    private readonly configService: ConfigService,
+  ) {}
 
   @Post(':name/subscribe')
-  async subscribe(@Param('name', new JoiValidationPipe(topicName)) name: string, @Body('email',  new JoiValidationPipe(subscriberEmail)) email: string) {
+  async subscribe(
+    @Param('name', new JoiValidationPipe(topicName)) name: string,
+    @Body('email', new JoiValidationPipe(subscriberEmail)) email: string,
+  ) {
     try {
       return await this.topicService.subscribe(name, email);
     } catch (err) {
@@ -24,11 +27,22 @@ export class TopicController {
   }
 
   @Post(':name/publish')
-  async publish(@Param('name', new JoiValidationPipe(topicName)) name: string, @Body('message',  new JoiValidationPipe(message)) message: string) {
+  async publish(
+    @Param('name', new JoiValidationPipe(topicName)) name: string,
+    @Body('message', new JoiValidationPipe(message)) message: string,
+  ) {
     try {
-      const { topic, latestMessage } = await this.topicService.publish(name, message);
-      await this.mailer.broadcast(topic.subscribers, latestMessage, this.configService.get('orgEmail'), topic.name);
-      return { message: latestMessage, recipients: topic.subscribers}
+      const { topic, latestMessage } = await this.topicService.publish(
+        name,
+        message,
+      );
+      await this.mailer.broadcast(
+        topic.subscribers,
+        latestMessage,
+        this.configService.get('orgEmail'),
+        topic.name,
+      );
+      return { message: latestMessage, recipients: topic.subscribers };
     } catch (err) {
       console.log(err);
       throw err;
@@ -36,7 +50,10 @@ export class TopicController {
   }
 
   @Get()
-  async listAll(@Query('search') message: string, @Body('filters') filters: { topics: [string], subscribers: [string]}) {
+  async listAll(
+    @Query('search') message: string,
+    @Body('filters') filters: { topics: [string]; subscribers: [string] },
+  ) {
     try {
       return await this.topicService.listAll(filters, message);
     } catch (err) {

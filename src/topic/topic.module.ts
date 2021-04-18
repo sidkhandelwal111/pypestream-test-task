@@ -6,9 +6,9 @@ import { Topic, TopicSchema } from './topic.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Topic.name, schema: TopicSchema }])
+    MongooseModule.forFeature([{ name: Topic.name, schema: TopicSchema }]),
   ],
   providers: [TopicService],
-  controllers: [TopicController]
+  controllers: [TopicController],
 })
 export class TopicModule {}
